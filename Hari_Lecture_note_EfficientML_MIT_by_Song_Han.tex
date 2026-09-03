@@ -38,7 +38,7 @@ This document contains the lecture notes for the TinyML and Efficient AI Computi
 
 \section{Hari's personal note on Neural Networks}
 
-\section*{A Simple Neural Network}
+\subsection{A Simple Neural Network}
 
 \begin{figure}[htbp]
   \centering
@@ -196,9 +196,9 @@ so that we can update parameters by (for example) gradient descent. Below is the
 
 \bigskip
 \pagebreak
-\section*{1.\ Forward Propagation}
+\subsection{Forward Propagation}
 
-\subsubsection*{1.1 Input layer \(\to\) Hidden layer}
+\subsubsection{Input layer \(\to\) Hidden layer}
 \[
   Z^{[1]} = W^{[1]}\,X + b^{[1]} \;\in\; \mathbb{R}^{n_h \times m}, 
   \quad
@@ -206,7 +206,7 @@ so that we can update parameters by (for example) gradient descent. Below is the
 \]
 Here $g$ is applied element‐wise (e.g., ReLU: $g(z) = \max(0,z)$, or $\tanh(z)$, etc.).
 
-\subsubsection*{1.2 Hidden layer \(\to\) Output layer}
+\subsubsection{Hidden layer \(\to\) Output layer}
 \[
   Z^{[2]} = W^{[2]}\,A^{[1]} + b^{[2]} \;\in\; \mathbb{R}^{n_y \times m}, 
   \quad
@@ -220,14 +220,14 @@ Concretely, for each example $i$ and each class $k$,
   \quad k = 1,\dots,n_y.
 \]
 
-\subsubsection*{1.3 Compute loss}
+\subsubsection{Compute loss}
 \[
   J = -\frac{1}{m} \sum_{i=1}^m \sum_{k=1}^{n_y} 
         Y_{k,i}\,\log\!\bigl(A^{[2]}_{k,i}\bigr).
 \]
 
 \bigskip
-\section*{2.\ Backpropagation: Output‐Layer Gradients}
+\subsection{Backpropagation: Output‐Layer Gradients}
 
 Because we use $\operatorname{softmax}$ plus cross‐entropy, there is a well‐known simplification:
 \begin{equation}\label{eq:dZ2}
@@ -245,7 +245,7 @@ We denote this matrix by
   dZ^{[2]} \;\equiv\; A^{[2]} - Y.
 \]
 
-\subsection*{2.1 Gradient w.r.t.\ \(W^{[2]}\)}
+\subsubsection{Gradient w.r.t.\ \(W^{[2]}\)}
 
 From
 \[
@@ -265,7 +265,7 @@ In matrix form, since $Z^{[2]} = W^{[2]} A^{[1]} + b^{[2]}$,
 \end{equation}
 (The factor $1/m$ comes from averaging over $m$ examples.)
 
-\subsection*{2.2 Gradient w.r.t.\ \(b^{[2]}\)}
+\subsubsection{Gradient w.r.t.\ \(b^{[2]}\)}
 
 Because $b^{[2]}$ is broadcast‐added to each column of $W^{[2]}A^{[1]}$,
 \[
@@ -280,7 +280,7 @@ where $\mathbf{1}_m \in \mathbb{R}^{m}$ is a column‐vector of all ones.  In pr
     \;\in\; \mathbb{R}^{n_y \times 1}.
 \end{equation}
 
-\subsection*{2.3 Gradient w.r.t.\ \(A^{[1]}\) (propagate to previous layer)}
+\subsubsection{Gradient w.r.t.\ \(A^{[1]}\) (propagate to previous layer)}
 
 Since $Z^{[2]} = W^{[2]}\,A^{[1]} + b^{[2]}$,  
 \begin{equation}\label{eq:dA1}
@@ -292,7 +292,7 @@ Since $Z^{[2]} = W^{[2]}\,A^{[1]} + b^{[2]}$,
 We often call this intermediate term $dA^{[1]} = \bigl(W^{[2]}\bigr)^{T}\,dZ^{[2]}$.
 
 \bigskip
-\section*{3.\ Backpropagation: Hidden‐Layer Gradients}
+\subsection{Backpropagation: Hidden‐Layer Gradients}
 
 At layer 1, we have
 \[
@@ -306,7 +306,7 @@ where $g$ is the activation (e.g., ReLU or $\tanh$).  We already computed
   \;\in\; \mathbb{R}^{n_h \times m}.
 \]
 
-\subsection*{3.1 Compute \(dZ^{[1]}\)}
+\subsubsection{Compute \(dZ^{[1]}\)}
 
 By the chain rule,
 \begin{equation}\label{eq:dZ1}
@@ -351,7 +351,7 @@ Thus
   \quad\in\; \mathbb{R}^{n_h \times m}.
 \]
 
-\subsection*{3.2 Gradient w.r.t.\ \(W^{[1]}\)}
+\subsubsection{Gradient w.r.t.\ \(W^{[1]}\)}
 
 From
 \[
@@ -370,7 +370,7 @@ Hence
   dW^{[1]} = \frac{1}{m}\,dZ^{[1]}\,X^{T}.
 \end{equation}
 
-\subsection*{3.3 Gradient w.r.t.\ \(b^{[1]}\)}
+\subsubsection{Gradient w.r.t.\ \(b^{[1]}\)}
 
 Because $b^{[1]}$ is added to each column of $W^{[1]}X$,
 \[
@@ -385,11 +385,11 @@ Thus
 \end{equation}
 
 \bigskip
-\section*{4.\ Full Overview}
+\subsection{Full Overview}
 
 Putting it all together for a two‐layer network (with a single hidden layer of size $n_h$):
 
-\subsection*{4.1 Forward Propagation}
+\subsubsection{Forward Propagation}
 \[
 \begin{cases}
   Z^{[1]} = W^{[1]}\,X + b^{[1]}, 
@@ -403,7 +403,7 @@ Putting it all together for a two‐layer network (with a single hidden layer of
         Y_{k,i}\,\log \bigl(A^{[2]}_{k,i}\bigr).
 \]
 
-\subsection*{4.2 Backward Propagation}
+\subsubsection{Backward Propagation}
 
 \paragraph{Output layer}
 \begin{align}
@@ -427,7 +427,7 @@ Putting it all together for a two‐layer network (with a single hidden layer of
             &&\in\mathbb{R}^{n_h\times 1}. \label{eq:hid3}
 \end{align}
 
-\subsection*{4.3 Parameter Updates (Gradient Descent)}
+\subsubsection{Parameter Updates (Gradient Descent)}
 
 After computing these gradients, update each parameter by
 \[
@@ -439,7 +439,7 @@ After computing these gradients, update each parameter by
 where $\alpha$ is the learning rate.
 
 \bigskip
-\section*{5.\ Generalization to More Layers}
+\subsection{Generalization to More Layers}
 
 If there are $L$ layers, the pattern is:
 \[
